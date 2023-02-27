@@ -9,7 +9,8 @@ from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
-OWNER = os.getenv('DISCORDBOT_OWNER')
+OWNER = int(os.getenv('DISCORDBOT_OWNER_ID'))
+TRIGGER = "!QUACK"
 
 client = discord.Client()
 
@@ -26,15 +27,14 @@ async def on_message(message):
     if message.author == client.user:
         # IGNORE SELF MESSAGES
         return
-
-    print(f"New message detected from {message.author}")
-    print(f"They have posted: {message.content}")
     
-    if message.content == "!Hello":
-        if message.author == OWNER:
+
+    if message.content.upper().startswith(TRIGGER):
+        if message.author.id == OWNER:
             await message.reply("Hello Father")
         else:
             await message.reply("Hello World")
+        await message.add_reaction()
 
 
 client.run(TOKEN)
