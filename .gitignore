@@ -1,5 +1,7 @@
-.env
-projects.db
-
 ideas/
 __pycache__/
+
+.env
+
+projects.db
+test.py

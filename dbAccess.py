@@ -56,7 +56,7 @@ def createProject(uID, ProjectName):
         values = (uID, ProjectName)
         cursor.execute("INSERT INTO activeProjects (owner, project_name) VALUES (?, ?);", values)
         commit()
-        print(f"Project Created as {ProjectName}")
+        return(f"Successfully created new project: {ProjectName}")
 
 
 def createSignUp(uID, ProjectName):

@@ -1,6 +1,7 @@
 # bot.py
 import os
 import dbAccess
+import botDBCommands
 
 import discord
 from dotenv import load_dotenv
@@ -10,7 +11,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 OWNER = int(os.getenv('DISCORDBOT_OWNER_ID'))
-TRIGGER = "!QUACK"
+TRIGGER = os.getenv('TRIGGER')
 
 client = discord.Client()
 
