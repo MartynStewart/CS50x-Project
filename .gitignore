@@ -1,3 +1,5 @@
 .env
-ideas/
 projects.db
+
+ideas/
+__pycache__/

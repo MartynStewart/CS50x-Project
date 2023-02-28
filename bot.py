@@ -1,6 +1,6 @@
 # bot.py
 import os
-import random
+import dbAccess
 
 import discord
 from dotenv import load_dotenv
@@ -14,10 +14,23 @@ TRIGGER = "!QUACK"
 
 client = discord.Client()
 
+
+# returns the username based on a unique user id
+async def discord_username(uid):
+    #return user name from id
+    user = await client.fetch_user(uid)
+    return user
+
+
+def parseRequest(message, id):
+    return dbAccess.ActiveProjects()
+
+
 # Runs when bot is started
 @client.event
 async def on_ready():
     print(f"My Owner is: {OWNER}")
+    print(f"My owner is: {await discord_username(OWNER)}")
     print("BOT ONLINE")
 
 
@@ -25,16 +38,18 @@ async def on_ready():
 @client.event
 async def on_message(message):
     if message.author == client.user:
-        # IGNORE SELF MESSAGES
         return
     
-
     if message.content.upper().startswith(TRIGGER):
+        discord_username(message.author.id)
         if message.author.id == OWNER:
-            await message.reply("Hello Father")
+            response = parseRequest(message.content, message.author.id)
+            await message.reply(response)
         else:
-            await message.reply("Hello World")
+            response = parseRequest(message.content)
+            await message.reply(response)
         await message.add_reaction()
 
 
 client.run(TOKEN)
+
