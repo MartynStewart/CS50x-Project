@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 TRIGGER = os.getenv('TRIGGER')
 
 
-def actions(message, uid):
+def Actions(message, uid):
     message = message.replace("[","").replace("]","")
     command = message.split()
 
@@ -45,10 +45,10 @@ def offers(uid):
 
 
 def create(uid, pName):
-    dbReturn = dbAccess.createProject(uid, pName)
+    dbReturn = dbAccess.CreateProject(uid, pName)
     return dbReturn
 
 
 def join(uid, pName):
-    dbReturn = dbAccess.createSignUp(uid, pName)
+    dbReturn = dbAccess.CreateSignUp(uid, pName)
     return dbReturn

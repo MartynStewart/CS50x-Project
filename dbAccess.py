@@ -48,7 +48,7 @@ def FindSignUps(uID):
     return rows
 
 
-def createProject(uID, ProjectName):
+def CreateProject(uID, ProjectName):
         ProjectName = ProjectName.upper()
         if isProjectNameUsed(ProjectName):
              ProjectName = getUniqueName(uID, ProjectName)
@@ -59,7 +59,7 @@ def createProject(uID, ProjectName):
         return(f"Successfully created new project: {ProjectName}")
 
 
-def createSignUp(uID, ProjectName):
+def CreateSignUp(uID, ProjectName):
         ProjectName = ProjectName.upper()
         projectID = projectID(ProjectName)
         if(projectID > 0):
