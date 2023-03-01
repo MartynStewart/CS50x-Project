@@ -18,20 +18,44 @@ client = discord.Client()
 
 # returns the username based on a unique user id
 async def discord_username(uid):
-    #return user name from id
     user = await client.fetch_user(uid)
     return user
 
 
-def parseRequest(message, id):
-    return dbAccess.ActiveProjects()
+async def parseRequest(message, id):
+    return await projects()
+
+#TODO: change element1 to be the username
+async def projects():
+    dbReturn = dbAccess.ActiveProjects()
+    if not dbReturn:
+        return "It doesn't look like there's any projects avalible right now"
+    returnString = "The following projects are looking for help: \r\n\n"
+    for element in dbReturn:
+        returnString += element[2] + " created by " + str(element[1]) + "\n"
+    returnString += "\n PM them project leader if you're interested"
+    return returnString
+
+
+def offers(uid):
+    dbReturn = dbAccess.FindSignUps(uid)
+    return dbReturn
+
+
+def create(uid, pName):
+    dbReturn = dbAccess.CreateProject(uid, pName)
+    return dbReturn
+
+
+def join(uid, pName):
+    dbReturn = dbAccess.CreateSignUp(uid, pName)
+    return dbReturn
+
 
 
 # Runs when bot is started
 @client.event
 async def on_ready():
-    print(f"My Owner is: {OWNER}")
-    print(f"My owner is: {await discord_username(OWNER)}")
     print("BOT ONLINE")
 
 
@@ -42,14 +66,9 @@ async def on_message(message):
         return
     
     if message.content.upper().startswith(TRIGGER):
-        discord_username(message.author.id)
-        if message.author.id == OWNER:
-            response = parseRequest(message.content, message.author.id)
-            await message.reply(response)
-        else:
-            response = parseRequest(message.content)
-            await message.reply(response)
-        await message.add_reaction()
+        response = await parseRequest(message.content, message.author.id)
+        await message.reply(response)
+        # await message.add_reaction()
 
 
 client.run(TOKEN)

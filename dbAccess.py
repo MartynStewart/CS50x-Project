@@ -7,7 +7,8 @@ cursor = con.cursor()
 
 #   Used to finalise any db inserts otherwise they don't stick
 def commit():
-     con.commit()
+     # con.commit()   commented out for testing
+     print()
 
 
 def projectID(ProjectName):

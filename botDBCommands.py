@@ -1,22 +1,22 @@
 import os
-import dbAccess
+import bot
 
 from dotenv import load_dotenv
 TRIGGER = os.getenv('TRIGGER')
 
 
-def Actions(message, uid):
+async def Actions(message, uid):
     message = message.replace("[","").replace("]","")
     command = message.split()
 
     if command[1].upper() == "PROJECTS" and len(command) == 2:
-        return projects()
+        return bot.projects()
     elif command[1].upper() == "OFFERS" and len(command) == 2:
-        return offers(uid)
+        return bot.offers(uid)
     elif command[1].upper() == "CREATE" and len(command) == 3:
-        return create(uid, command[2])
+        return bot.create(uid, command[2])
     elif command[1].upper() == "JOIN" and len(command) == 3:
-        return join(uid, command[2])
+        return bot.join(uid, command[2])
     
 
     elif command[1].upper() == "HELP" and len(command) == 3 and command[2].upper() == "PROJECTS":
@@ -33,22 +33,3 @@ def Actions(message, uid):
         return ("Avalible commands are: [projects], [offers], [create] and [join]. For further info you can type \"!quack help [command]\" ")
     else:
         return ("Sorry that command wasn't found. Try !help for how I work")
-
-def projects():
-    dbReturn = dbAccess.ActiveProjects()
-    return dbReturn
-
-
-def offers(uid):
-    dbReturn = dbAccess.FindSignUps(uid)
-    return dbReturn
-
-
-def create(uid, pName):
-    dbReturn = dbAccess.CreateProject(uid, pName)
-    return dbReturn
-
-
-def join(uid, pName):
-    dbReturn = dbAccess.CreateSignUp(uid, pName)
-    return dbReturn
