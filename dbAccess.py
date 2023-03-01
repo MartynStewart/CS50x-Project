@@ -7,11 +7,11 @@ cursor = con.cursor()
 
 #   Used to finalise any db inserts otherwise they don't stick
 def commit():
-     # con.commit()   commented out for testing
+     # con.commit()   #commented out for testing
      print()
 
 
-def projectID(ProjectName):
+def getProjectID(ProjectName):
     cursor.execute("SELECT COUNT(project_name), ID FROM activeProjects WHERE project_name = ?;",(ProjectName,))
     project = cursor.fetchall()
     if(int(project[0][0]) > 0):
@@ -20,7 +20,7 @@ def projectID(ProjectName):
 
 
 def isProjectNameUsed(ProjectName):
-    if (projectID(ProjectName) == -1):
+    if (getProjectID(ProjectName) == -1):
           return False
     return True
 
@@ -33,7 +33,7 @@ def getUniqueName(seed, ProjectName):
     newName = ProjectName + str(sum)
 
     if(isProjectNameUsed(newName)):
-         getUniqueName(seed + 1, ProjectName)
+         newName = getUniqueName(seed + 1, ProjectName)
     return newName
 
 
@@ -62,10 +62,9 @@ def CreateProject(uID, ProjectName):
 
 def CreateSignUp(uID, ProjectName):
         ProjectName = ProjectName.upper()
-        projectID = projectID(ProjectName)
+        projectID = getProjectID(ProjectName)
         if(projectID > 0):
-             values = (projectID[0][1], uID)
-             print(f"inserting this: {values}")
+             values = (projectID, uID)
              cursor.execute("INSERT INTO activeParticipants (project_id, helper) VALUES (?, ?);", values)
              commit()
              return True

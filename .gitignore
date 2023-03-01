@@ -4,4 +4,6 @@ __pycache__/
 .env
 
 projects.db
+projects2.db
+projects_blank.db
 test.py
