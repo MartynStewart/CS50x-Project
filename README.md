@@ -134,4 +134,6 @@ __rational__
 + Create a 3rd table to store a project description to allow further information to be shared
 + GDPR compliance - Storage of personally identifiable information could be a GDPR issue though data is only stored via consent of using the commands and 1 user can't sign another up there may still be further things to look at to ensure compliance
 
+## Example Usage
+
 ![Example usage](/ideas/QuackslyExamples.png)
