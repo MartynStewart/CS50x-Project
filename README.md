@@ -42,21 +42,21 @@ This is the root command that will initiate all other commands. Quacksly checks 
 These all result in Quacksly returning useful context on how to use each command
 
 ```
-!quck projects
+!quack projects
 ```
 This will return a list of all open projects seeking help and the owner of said project (discord username including #0000 number to allow communication)
 
 ```
-!quck offers
+!quack offers
 ```
 This will return the names of all usernames of who have offered to help with your project. It will also include the project name each time in the event you have multiple projects open
 
 ```
-!quck create [project_name]
+!quack create [project_name]
 ```
 Creates a project with the user as an owner. Project name must be 1 word and must be unique. If it's not unique then the bot will append a unique ID number to the end (based on the users discord ID)
 
 ```
-!quck join [project_name]
+!quack join [project_name]
 ```
 Adds an offer to the project for the user. Project_name must be an exact match otherwise it will return a fail state
