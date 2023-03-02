@@ -1,4 +1,4 @@
-![Quacksly](/ideas/Quacksly.png)
+![Quacksly](/ideas/Quacksly.bmp)
 
 # Quacksly the CS50 Discord Duck
 #### Video Demo:  <URL HERE>
