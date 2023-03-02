@@ -13,8 +13,3 @@ CREATE TABLE `activeParticipants` (
 	`helper` TEXT NOT NULL,
 	'timedate'  DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-
-
-SELECT activeProjects.ID from activeProjects WHERE activeProjects.owner = ?;
-
-SELECT 

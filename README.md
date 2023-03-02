@@ -60,3 +60,61 @@ Creates a project with the user as an owner. Project name must be 1 word and mus
 !quack join [project_name]
 ```
 Adds an offer to the project for the user. Project_name must be an exact match otherwise it will return a fail state
+
+
+### bot.py
+
+Central file for instantiating and carrying out actions for the bot. This impliments discords on API and includes the library `discord.py`. Full details of the [API can be found here](https://discordpy.readthedocs.io/en/stable/index.html)
+
+__Standard API functions included__
+`on_ready()` is called when the bot loads in after creation
+`on_message(message)` is called when a new message is entered in a channel Quacksly can see. This contains a message object as detailed in the API. If Quacksly detects the trigger word then follow up checks are made via `parseRequest()` otherwise it's ignored.
+
+__Custom functions__
+`parseRequest(message, uid)` is responsible to deciding what action the user wants to take TODO: Stop this being a massive IF ELSE section.
+`discord_username(uid)` uses Discord API to get the username based on a unique discord user id - This is an API call rather than using the cached members list. Open selected as it's not going to be a consistently used call.
+`projects() | offers(uid) | create(uid, pName) | join(uid, pName)` execute the command identified by the `parseRequest()` function. These also clean up the response from the database to be user friendly
+
+
+### dbAccess.py
+
+File responsible for accessing a locally stored DB via SQL. I've implimented SQLite to do this as it's small and fast. My db is only going to be storing a few tables and using a handful of simple SQL statements to access them so my solution didn't need to be complex. Full docs for [SQLite can be found here](https://www.sqlite.org/docs.html)
+
+__Custom functions__
+`commit()` As the db won't be setup in auto commit mode this function is called when a commitable action has been taken by the rest of the code. This has been handy for testing as it's allowed me to test junk data into my db without causing issues later (such as invalid user ids being stored)
+
+`getUniqueName(seed, ProjectName)` A recursive function to check a project name is unique and if not it will generate a new name for the project. The seed intially is the unique discord username of the user which has all of its digits summed to create a number to append to the project name, this is checked and if not unique then it's re-ran but the seed is incremented by 1 until a  unique name is found. 
+
+`ActiveProjects() | FindSignUps(uID)` Are simple look ups for the database using SELECT statements. No user inputs are needed for either. The second uses the unique discord username.
+
+`CreateProject(uID, ProjectName) | CreateSignUp(uID, ProjectName)` Do the insertions into the database. These use SQLites functionality to clean the data before it's inserted to attempt to avoid SQL injection attacks as the ProjectName is user generated.
+
+
+### projects.db
+
+__.schema__
+```
+CREATE TABLE `activeProjects` (
+	`ID` INTEGER  PRIMARY KEY,
+	`owner` INTEGER unsigned NOT NULL,
+	`project_name` TEXT NOT NULL,
+	'timedate'  DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE `activeParticipants` (
+	`ID` INTEGER  PRIMARY KEY,
+	`project_id` INTEGER unsigned NOT NULL,
+	`helper` TEXT NOT NULL,
+	'timedate'  DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+```
+__rational__
+
+`activeProjects` stores the owner/creators unique discord ID and the name of the project - Note this isn't denoted as unique but is enforced by the code prior to being entered. ID will be auto generated to keep track of individual projects and the timedate will be auto saved - Potential future expansion to allow cleaning projects over 90 days old.
+
+`activeParticipants` stores a project ID from the previous table as well as the person offering helps unique discord id. Again timedate is captured but goes unused currently but could be expended later to help with cleaning the db up
+
+__possible changes__
+
+Auto clean up the DB after a period of time
+Create a 3rd table to store a project description to allow further information to be shared
