@@ -9,8 +9,6 @@ from dotenv import load_dotenv
 # Used to get loading information - Create a .env file with your own attributes
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
-OWNER = int(os.getenv('DISCORDBOT_OWNER_ID'))
 TRIGGER = os.getenv('TRIGGER')
 
 client = discord.Client()

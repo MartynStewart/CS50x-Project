@@ -26,6 +26,17 @@ A user looking for others to work with laments that their message will be lost i
 
 With the above approach laid out I decided that a bot on Discord would be the best solution. This bot should work similarly to a noticeboard where users can post and remove projects they are seeking help with and seekers can check the board and elect to sign up for projects (and remove their application). I realised that this bot would need to have a database to store this information.
 
+
+## Requirements
++ [Python 3 installed](https://www.python.org/downloads/)
++ [discord.py installed](https://discordpy.readthedocs.io/en/stable/)
++ [SQLite installed](https://www.sqlite.org/index.html)
++ [dotenv installed](https://github.com/motdotla/dotenv)
++ projects.db file with the correct schema in the bot directory
++ .env file with the bot token (DISCORD_TOKEN) and a trigger word (TRIGGER)
+
+![env Example](/ideas/envExample.png)
+
 ## The Commands
 <sub>Note all commands are case insensitive - Everything is treated as upper case for comparisons and storage</sub>
 
