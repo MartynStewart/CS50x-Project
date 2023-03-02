@@ -23,33 +23,53 @@ async def discord_username(uid):
 
 
 async def parseRequest(message, uid):
-    message = message.replace("[","").replace("]","")
-    command = message.split()
+    command = message.replace("[","").replace("]","").split()
+    length = len(command)
+    if(length == 1):
+        return("QUACK!")
 
-    if len(command) == 2 and command[1].upper() == "PROJECTS":
-        return await projects()
-    elif len(command) == 2 and command[1].upper() == "OFFERS":
-        return await offers(uid)
-    elif len(command) == 3 and command[1].upper() == "CREATE":
-        return await create(uid, command[2])
-    elif len(command) == 3 and command[1].upper() == "JOIN":
-        return await join(uid, command[2])
-    
+    userCommand = command[1].upper()
+    if userCommand == "HELP":
+        return await helpCommands(command)
+    if length == 2:
+        if userCommand == "PROJECTS":
+            return await projects()
+        elif userCommand == "OFFERS":
+            return await offers(uid)
+        else:
+            return ("Sorry that command wasn't found. Try !quack help for how I work")
+    if length == 3:
+        if userCommand == "CREATE":
+            return await create(uid, command[2])
+        elif userCommand == "JOIN":
+            return await join(uid, command[2])
+        elif userCommand == "DELETEPROJECT":
+            return await deleteProject(uid, command[2])
+        elif userCommand == "DELETEOFFER":
+            return await deleteOffer(uid, command[2])
+        else:
+            return ("Sorry that command wasn't found. Try !quack help for how I work")
+    return ("Sorry that command wasn't found. Try !quack help for how I work")
 
-    elif len(command) == 3 and command[1].upper() == "HELP" and command[2].upper() == "PROJECTS":
-        return (f"Usage: \"{TRIGGER} PROJECTS\". Displays a list of all avalible projects looking for help")
-    elif len(command) == 3 and command[1].upper() == "HELP" and command[2].upper() == "OFFERS":
-        return (f"Usage: \"{TRIGGER} OFFERS\". If you've created a project with me this will tell you all the users who have signed up")
-    elif len(command) == 3 and command[1].upper() == "HELP" and command[2].upper() == "CREATE":
-        return (f"Usage: \"{TRIGGER} CREATE [project_name]\" note project name must be all 1 word. This will create a new project as you as the owner, If the name is already in use then I will adjust it")
-    elif len(command) == 3 and command[1].upper() == "HELP" and command[2].upper() == "JOIN":
-        return (f"Usage: \"{TRIGGER} JOIN [project_name]\" note project name must be exact. Will signal you would like to help out with the project")
-    
-
-    elif len(command) == 2 and command[1].upper() == "HELP":
-        return ("Avalible commands are: [projects], [offers], [create] and [join]. For further info you can type \"!quack help [command]\" ")
+async def helpCommands(command):
+    if len(command) == 3:
+        userCommand = command[2].upper()
+        if userCommand == "PROJECTS":
+            return (f"Usage: \"{TRIGGER} PROJECTS\". Displays a list of all avalible projects looking for help")
+        elif userCommand == "OFFERS":
+            return (f"Usage: \"{TRIGGER} OFFERS\". If you've created a project with me this will tell you all the users who have signed up")
+        elif userCommand == "CREATE":
+            return (f"Usage: \"{TRIGGER} CREATE [project_name]\" note project name must be all 1 word. This will create a new project as you as the owner, If the name is already in use then I will adjust it")
+        elif userCommand == "JOIN":
+            return (f"Usage: \"{TRIGGER} JOIN [project_name]\" note project name must be exact. Will signal you would like to help out with the project")
+        elif userCommand == "DELETEPROJECT":
+            return (f"Usage: \"{TRIGGER} DELETEPROJECT [project_name]\" Deletes this project and all sign ups. Note project name must be exact and you must be the creator.")
+        elif userCommand == "DELETEOFFER":
+            return (f"Usage: \"{TRIGGER} DELETEOFFER [project_name]\" Deletes your sign up for this project. Note project name must be exact].")
+        else:
+            return ("Avalible commands are: [projects], [offers], [create], [join], [deleteProject] and [deleteOffer]. For further info you can type \"!quack help [command]\" ")
     else:
-        return ("Sorry that command wasn't found. Try !quack help for how I work")
+        return ("Avalible commands are: [projects], [offers], [create], [join], [deleteProject] and [deleteOffer]. For further info you can type \"!quack help [command]\" ")
 
 
 async def projects():
@@ -86,6 +106,17 @@ async def join(uid, pName):
         return "Successfully joined the project"
     return "Sorry that project was not found. Please check you are spelling the full project name correctly"
 
+async def deleteProject(uid, pName):
+    dbReturn = dbAccess.DeleteProject(uid, pName)
+    if(dbReturn):
+        return "Successfully deleted the project"
+    return "Sorry that project was not found under your ID. Please check you are spelling the full project name correctly"
+
+async def deleteOffer(uid, pName):
+    dbReturn = dbAccess.DeleteOffer(uid, pName)
+    if(dbReturn):
+        return "Successfully removed your offer on that project"
+    return "Sorry a project offer was not found under your ID. Please check you are spelling the full project name correctly"
 
 # Runs when bot is started
 @client.event

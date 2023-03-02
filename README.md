@@ -1,6 +1,4 @@
-![Quacksly](/ideas/Quacksly.png)
-
-# Quacksly the CS50 Discord Duck
+# ![Quacksly](/ideas/Quacksly.png)
 #### Video Demo:  <URL HERE>
 #### Description:
 
@@ -33,7 +31,7 @@ With the above approach laid out I decided that a bot on Discord would be the be
 ```
 !quack
 ```
-This is the root command that will initiate all other commands. Quacksly checks any new messages to see if they begin with this, if they do Quacksly will then take action
+This is the root command that will initiate all other commands. Quacksly checks any new messages to see if they begin with this, if they do Quacksly will then take action. Quacksly will quack back at users who don't give commands
 
 ```
 !quack help
@@ -41,6 +39,8 @@ This is the root command that will initiate all other commands. Quacksly checks 
 !quack help offers
 !quack help create
 !quack help join
+!quack help deleteProject
+!quack help deleteOffer
 ```
 These all result in Quacksly returning useful context on how to use each command
 
@@ -64,6 +64,15 @@ Creates a project with the user as an owner. Project name must be 1 word and mus
 ```
 Adds an offer to the project for the user. Project_name must be an exact match otherwise it will return a fail state
 
+```
+!quack deleteProject [project_name]
+```
+Deletes the named project from the DB only if it exists and the requestor was the original creator. Also removes any offers
+
+```
+!quack deleteOffer [project_name]
+```
+Deletes the users offer to help on the named project (if it exists)
 
 ## bot.py
 
@@ -117,7 +126,10 @@ __rational__
 
 `activeParticipants` stores a project ID from the previous table as well as the person offering helps unique discord id. Again timedate is captured but goes unused currently but could be expended later to help with cleaning the db up
 
-__possible changes__
+## Possible changes
 
-Auto clean up the DB after a period of time
-Create a 3rd table to store a project description to allow further information to be shared
++ Auto clean up the DB after a period of time
++ Create a 3rd table to store a project description to allow further information to be shared
++ GDPR compliance - Storage of personally identifiable information could be a GDPR issue though data is only stored via consent of using the commands and 1 user can't sign another up there may still be further things to look at to ensure compliance
+
+![Example usage](/ideas/QuackslyExamples.png)

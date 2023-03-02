@@ -7,8 +7,7 @@ cursor = con.cursor()
 
 #   Used to finalise any db inserts otherwise they don't stick
 def commit():
-     # con.commit()   #commented out for testing
-     print()
+    con.commit()   #commented out for testing
 
 
 def getProjectID(ProjectName):
@@ -53,7 +52,6 @@ def CreateProject(uID, ProjectName):
         ProjectName = ProjectName.upper()
         if isProjectNameUsed(ProjectName):
              ProjectName = getUniqueName(uID, ProjectName)
-        
         values = (uID, ProjectName)
         cursor.execute("INSERT INTO activeProjects (owner, project_name) VALUES (?, ?);", values)
         commit()
@@ -70,3 +68,27 @@ def CreateSignUp(uID, ProjectName):
              return True
         else:
              return False
+
+
+def DeleteProject(uID, ProjectName):
+    ProjectName = ProjectName.upper()
+    cursor.execute("SELECT ID FROM activeProjects WHERE owner = ? AND project_name = ?",(uID, ProjectName))
+    projectID = cursor.fetchall()[0][0]
+    if(projectID > 0):
+        cursor.execute("DELETE FROM activeProjects WHERE ID = ?;", (projectID, ))
+        cursor.execute("DELETE FROM activeParticipants WHERE project_id = ?;", (projectID, ))
+        commit()
+        return True
+    else:
+        return False
+
+def DeleteOffer(uID, ProjectName):
+    ProjectName = ProjectName.upper()
+    cursor.execute("SELECT ID FROM activeProjects WHERE project_name = ?",(ProjectName, ))
+    projectID = cursor.fetchall()[0][0]
+    if(projectID > 0):
+        cursor.execute("DELETE FROM activeParticipants WHERE project_id = ? AND helper = ?;", (projectID, uID))
+        commit()
+        return True
+    else:
+        return False
