@@ -1,0 +1,20 @@
+CREATE TABLE `activeProjects` (
+	`ID` INTEGER  PRIMARY KEY,
+	`owner` INTEGER unsigned NOT NULL,
+	`project_name` TEXT NOT NULL,
+	'timedate'  DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+CREATE TABLE `activeParticipants` (
+	`ID` INTEGER  PRIMARY KEY,
+	`project_id` INTEGER unsigned NOT NULL,
+	`helper` TEXT NOT NULL,
+	'timedate'  DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
+SELECT activeProjects.ID from activeProjects WHERE activeProjects.owner = ?;
+
+SELECT 
