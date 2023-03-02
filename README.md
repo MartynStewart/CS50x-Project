@@ -2,6 +2,7 @@
 #### Video Demo:  <URL HERE>
 #### Description:
 
+
 Quacksly is a helpful Discord bot that will help students of CS50 have an easier time connecting to work on a project together.
 
 
