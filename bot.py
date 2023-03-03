@@ -53,7 +53,7 @@ async def helpCommands(command):
     if len(command) == 3:
         userCommand = command[2].upper()
         if userCommand == "PROJECTS":
-            return (f"Usage: \"{TRIGGER} PROJECTS\". Displays a list of all avalible projects looking for help")
+            return (f"Usage: \"{TRIGGER} PROJECTS\". Displays a list of all available projects looking for help")
         elif userCommand == "OFFERS":
             return (f"Usage: \"{TRIGGER} OFFERS\". If you've created a project with me this will tell you all the users who have signed up")
         elif userCommand == "CREATE":
@@ -65,15 +65,15 @@ async def helpCommands(command):
         elif userCommand == "DELETEOFFER":
             return (f"Usage: \"{TRIGGER} DELETEOFFER [project_name]\" Deletes your sign up for this project. Note project name must be exact].")
         else:
-            return ("Avalible commands are: [projects], [offers], [create], [join], [deleteProject] and [deleteOffer]. For further info you can type \"!quack help [command]\" ")
+            return ("Available commands are: [projects], [offers], [create], [join], [deleteProject] and [deleteOffer]. For further info you can type \"!quack help [command]\" ")
     else:
-        return ("Avalible commands are: [projects], [offers], [create], [join], [deleteProject] and [deleteOffer]. For further info you can type \"!quack help [command]\" ")
+        return ("Available commands are: [projects], [offers], [create], [join], [deleteProject] and [deleteOffer]. For further info you can type \"!quack help [command]\" ")
 
 
 async def projects():
     dbReturn = dbAccess.ActiveProjects()
     if not dbReturn:
-        return "It doesn't look like there's any projects avalible right now"
+        return "It doesn't look like there's any projects available right now"
     returnString = "The following projects are looking for help: \r\n\n"
     for element in dbReturn:
         uName = await discord_username(element[1])

@@ -1,7 +1,7 @@
 
 
 # ![Quacksly](/ideas/Quacksly.png) Quacksly the CS50 Discord Duck
-#### Video Demo:  <URL HERE>
+#### Video Demo:  <https://youtu.be/DNKT2PsY6tc>
 #### Description:
 
 
